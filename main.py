@@ -16,7 +16,7 @@ def seed():
 
 n_scores_per_test = 50000
 test_ratios = [.1, .2, .4, .6, .8]
-model = Lasso(alpha=0.0005, random_state=seed(), tol=0.00001, copy_X=True)
+model = Lasso(alpha=0.0005, tol=0.00001, copy_X=True, selection='random', random_state=seed())
 
 # load our training data
 train = pd.read_csv('train.csv')
@@ -27,6 +27,8 @@ y = np.log(train['SalePrice'].values)
 def rmse(y_predicted, y_actual):
     tmp = np.power(y_actual - y_predicted, 2) / y_actual.size
     return np.sqrt(np.sum(tmp, axis=0))
+    #tmp = (y_actual - y_predicted) / y_actual.size
+    #return np.sum(tmp, axis=0)
 
 
 for test_ratio in test_ratios:
